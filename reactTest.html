@@ -1,0 +1,70 @@
+<html>
+	<head>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<div id="content"></div>
+		<script type="text/jsx">
+	    	// Your code here
+	    	var Chat = React.createClass({
+				getInitialState: function() {
+					return {data: [{author:"Nico", message:"Stuff"}, {author:"Evan", message:"Things"}]};
+				},
+				handleNewMessage: function(newMessage) {
+					this.state.data.push(newMessage);
+					this.setState({data:this.state.data});
+				},
+				render: function() {
+					var messages = this.state.data.map(function (message) {
+						return (
+							<Message data={message}/>
+						);
+					});
+
+					return (
+						<div>
+							<ul>
+								{messages}
+							</ul>
+							<New onNew={this.handleNewMessage}/>
+						</div>
+					);
+				}
+			});
+
+			var Message = React.createClass({
+				render: function() {
+					return (
+						<li><strong>{this.props.data.author}</strong>: {this.props.data.message}</li>
+					);
+				}
+			});
+
+			var New = React.createClass({
+				handleNew: function() {
+					var author =  React.findDOMNode(this.refs.author).value.trim();
+					var message =  React.findDOMNode(this.refs.message).value.trim();
+					this.props.onNew({author:author, message:message});
+					React.findDOMNode(this.refs.author).value = '';
+					React.findDOMNode(this.refs.message).value = '';
+				},
+				render: function() {
+					return (
+						<div>
+							<input placeholder="Author" ref="author"></input>
+							<input placeholder="Message" ref="message"></input>
+							<button onClick={this.handleNew}>New</button>
+						</div>
+					);
+				}
+			});
+
+			React.render(
+			  <Chat />,
+			  document.getElementById('content')
+			);
+	    </script>
+	</body>
+</html>

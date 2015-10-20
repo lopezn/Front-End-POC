@@ -1,0 +1,20 @@
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
+		<script src="angularTest.js"></script>
+	</head>
+	<body ng-app="test">
+		<div ng-controller="ChatController as chat">
+			<ul>
+				<li ng-repeat="message in chat.messages">
+					<strong>{{message.author}}</strong>: {{message.message}}
+				</li>
+			</ul>
+			<div>
+				<input ng-model="chat.newAuthor" placeholder="author"></input>
+				<input ng-model="chat.newMessage" placeholder="message"></input>
+				<button ng-click="chat.addMessage()">New</button>
+			</div>
+		</div>
+	</body>
+</html>
